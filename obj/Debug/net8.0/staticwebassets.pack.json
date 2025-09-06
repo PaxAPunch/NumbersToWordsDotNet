@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "/workspaces/codespaces-blank/wwwroot/index.html",
+      "PackagePath": "staticwebassets/index.html"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.codespaces-blank.props",
+      "PackagePath": "build\\codespaces-blank.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.codespaces-blank.props",
+      "PackagePath": "buildMultiTargeting\\codespaces-blank.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.codespaces-blank.props",
+      "PackagePath": "buildTransitive\\codespaces-blank.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.codespaces-blank.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

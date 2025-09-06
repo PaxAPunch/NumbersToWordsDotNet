@@ -1,0 +1,39 @@
+{
+  "Version": 1,
+  "Hash": "d17Hh7vcWh0ml4JYkDEasj7QGfFEeny87iOhEaqik0c=",
+  "Source": "codespaces-blank",
+  "BasePath": "_content/codespaces-blank",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "codespaces-blank/wwwroot",
+      "Source": "codespaces-blank",
+      "ContentRoot": "/workspaces/codespaces-blank/wwwroot/",
+      "BasePath": "_content/codespaces-blank",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/workspaces/codespaces-blank/wwwroot/index.html",
+      "SourceId": "codespaces-blank",
+      "SourceType": "Discovered",
+      "ContentRoot": "/workspaces/codespaces-blank/wwwroot/",
+      "BasePath": "_content/codespaces-blank",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/index.html"
+    }
+  ]
+}
