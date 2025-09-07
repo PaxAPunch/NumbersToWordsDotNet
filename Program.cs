@@ -11,68 +11,76 @@ app.UseStaticFiles();
 app.Run();
 
 string DecodeInput(double input) {
-    // Input Testing
-    if(input == 0) {
-        return new string("Hello, World!");
-    } else {
-        string output = "";
-        if (input < 0) {
-            output = "NEGATIVE ";
-            // Change the input to potive for simpler handling
-            input = Math.Abs(input);
-        }
-        // Split number into two at the decimal point e.g. "123" and "45"
-        string[] parts = input.ToString().Split('.');
-        // Parse the whole digits into an array e.g. [1,2,3]
-        var digits = parts[0].Select(c => int.Parse(c.ToString())).ToArray();
-        // Parse the decimal digits into an array or return an empty one e.g. [4,5] or []
-        var decimals = parts.Length > 1 
-            ? parts[1].Select(c => int.Parse(c.ToString())).ToArray()
-            : Array.Empty<int>();
-
-        int position = digits.Length;
-        for (int i=0; i<=digits.Length-1; i++) {
-            if ((position - 2) % 3 == 0) {
-                // Teens test in here
-                if (digits[i] == 1 && digits[i+1] != 0) {
-                    output += Teens(digits[i+1]);
-                    i++;
-                } else {
-                    output += Tens(digits[i]) + " ";
-                }
-            } else {
-                output += Ones(digits[i]) + " ";
-            }
-
-            // Do I split it into groups of three and process them in batches?
-            
-            if (digits[i] != 0) {
-                if (position % 3 == 0) {
-                    output += "HUNDRED ";
-                } else if (position % 4 == 0) {
-                    output += "THOUSAND ";
-                } else if (position % 7 == 0) {
-                    output += "MILLION ";
-                } else if (position % 10 == 0) {
-                    output += "BILLION ";
-                } else if (position % 13 == 0) {
-                    output += "TRILLION ";
-                }
-            }
-            position--;
-        }
-
-        // Need dollars and cents
-
-        if (decimals.Length == 0) {
-            // No decimals to work with.
-        }
-        return output;
+    if (input == 0) return "ZERO";
+    string output = "";
+    bool negFlag = false;
+    if (input < 0) {
+        negFlag = true;
+        input = Math.Abs(input);
     }
+    if (input > 999999999999999) return "INPUT TOO LARGE (OVER 100 TRILLION)";
+
+    string[] parts = input.ToString().Split('.');
+    var digits = parts[0].Select(c => int.Parse(c.ToString())).ToArray();
+    var decimals = parts.Length > 1
+        ? parts[1].Select(c => int.Parse(c.ToString())).ToArray()
+        : Array.Empty<int>();
+
+    string[] scales = { "", "THOUSAND", "MILLION", "BILLION", "TRILLION" };
+    int groupCount = 0;
+    int position = digits.Length;
+    // Checking in groups of three
+    for (int i = digits.Length; i > 0; i -= 3) {
+        // Make sure doest start in a negative
+        int start = Math.Max(i - 3, 0);
+        int length = i - start;
+        var group = digits.Skip(start).Take(length).ToArray();
+        string groupWords = ProcessGroup(group);
+        if (groupWords != "") {
+            output = groupWords + (scales[groupCount] != "" ? " " + scales[groupCount] + " " : " ") + output;
+        }
+        groupCount++;
+    }
+
+    if (decimals.Length > 0) {
+        output += "DOLLARS AND ";
+        if (decimals.Length == 2) {
+            if (decimals[0] == 1 && decimals[1] != 0) {
+                output += Teens(decimals[1]);
+            } else {
+                output += Tens(decimals[0]) + " " + Ones(decimals[1]);
+            }
+        } else {
+            output += Ones(decimals[0]);
+        }
+        output += " CENTS";
+    } else {
+        output += "DOLLARS";
+    }
+
+    if (negFlag) output = "NEGATIVE " + output;
+    return output;
 }
 
-// How do I handle Zeros? Probably before calling Ones
-// I can probably combine the following three into one function
+string ProcessGroup(int[] digits) {
+    string result = "";
+    for (int i = 0; i < digits.Length; i++) {
+        int position = digits.Length - i;
+        if (position == 3 && digits[i] != 0) {
+            result += Ones(digits[i]) + " HUNDRED ";
+        } else if (position == 2) {
+            if (digits[i] == 1 && digits[i+1] != 0) {
+                result += Teens(digits[i+1]) + " ";
+                break; // Handles two positions, so skip ahead
+            } else {
+                result += Tens(digits[i]) + " ";
+            }
+        } else if (position == 1 && digits[i] != 0) {
+            result += Ones(digits[i]) + " ";
+        }
+    }
+    return result;
+}
 
 string Ones(int input) {
     switch(input) {
