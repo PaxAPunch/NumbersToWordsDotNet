@@ -43,19 +43,31 @@ string DecodeInput(double input) {
     }
 
     if (decimals.Length > 0) {
-        output += "DOLLARS AND ";
+        if (digits.Length == 1 && digits[0] == 1) {
+            output += "DOLLAR AND ";
+        } else {
+            output += "DOLLARS AND ";
+        }
         if (decimals.Length == 2) {
             if (decimals[0] == 1 && decimals[1] != 0) {
-                output += Teens(decimals[1]);
+                output += numToWord(decimals[1], "teens");
             } else {
-                output += Tens(decimals[0]) + " " + Ones(decimals[1]);
+                output += numToWord(decimals[0], "tens") + " " + numToWord(decimals[1], "ones");
             }
         } else {
-            output += Ones(decimals[0]);
+            output += numToWord(decimals[0], "tens");
         }
-        output += " CENTS";
+        if (decimals.Length == 2 && decimals[0] == 0 && decimals[1] == 1) {
+            output += " CENT";
+        } else {
+            output += " CENTS";
+        }
     } else {
-        output += "DOLLARS";
+        if (digits.Length == 1 && digits[0] == 1) {
+            output += "DOLLAR";
+        } else {
+            output += "DOLLARS";
+        }
     }
 
     if (negFlag) output = "NEGATIVE " + output;
@@ -67,92 +79,37 @@ string ProcessGroup(int[] digits) {
     for (int i = 0; i < digits.Length; i++) {
         int position = digits.Length - i;
         if (position == 3 && digits[i] != 0) {
-            result += Ones(digits[i]) + " HUNDRED ";
+            result += numToWord(digits[i], "ones") + " HUNDRED ";
         } else if (position == 2) {
             if (digits[i] == 1 && digits[i+1] != 0) {
-                result += Teens(digits[i+1]) + " ";
+                result += numToWord(digits[i+1], "teens") + " ";
                 break; // Handles two positions, so skip ahead
             } else {
-                result += Tens(digits[i]) + " ";
+                result += numToWord(digits[i], "tens") + " ";
             }
         } else if (position == 1 && digits[i] != 0) {
-            result += Ones(digits[i]) + " ";
+            result += numToWord(digits[i], "ones") + " ";
         }
     }
     return result;
 }
 
-string Ones(int input) {
-    switch(input) {
-    case 1:
-        return new string("ONE");
-    case 2:
-        return new string("TWO");
-    case 3:
-        return new string("THREE");
-    case 4:
-        return new string("FOUR");
-    case 5:
-        return new string("FIVE");
-    case 6:
-        return new string("SIX");
-    case 7:
-        return new string("SEVEN");
-    case 8:
-        return new string("EIGHT");
-    case 9:
-        return new string("NINE");
-    default:
-        return new string("");
-    }
-}
+string numToWord(int input, string category) {
+    string[] ones = { "", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE" };
+    string[] teens = { "", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN" };
+    string[] tens = { "", "TEN", "TWENTY", "THIRTY", "FORTY", "FIFTY", "SIXTY", "SEVENTY", "EIGHTY", "NINETY" };
 
-string Teens(double input) {
-    switch(input) {
-    case 1:
-        return new string("ELEVEN");
-    case 2:
-        return new string("TWELVE");
-    case 3:
-        return new string("THIRTEEN");
-    case 4:
-        return new string("FOURTEEN");
-    case 5:
-        return new string("FIFTEEN");
-    case 6:
-        return new string("SIXTEEN");
-    case 7:
-        return new string("SEVENTEEN");
-    case 8:
-        return new string("EIGHTEEN");
-    case 9:
-        return new string("NINETEEN");
-    default:
-        return new string("");
-    }
-}
-
-string Tens(double input) {
-    switch(input) {
-    case 1:
-        return new string("TEN");
-    case 2:
-        return new string("TWENTY");
-    case 3:
-        return new string("THIRTY");
-    case 4:
-        return new string("FORTY");
-    case 5:
-        return new string("FIFTY");
-    case 6:
-        return new string("SIXTY");
-    case 7:
-        return new string("SEVENTY");
-    case 8:
-        return new string("EIGHTTY");
-    case 9:
-        return new string("NINETY");
-    default:
-        return new string("");
+    switch(category) {
+        case "ones":
+            return ones[input];
+            break;
+        case "teens":
+            return teens[input];
+            break;
+        case "tens":
+            return tens[input];
+            break;
+        default:
+            return "";
     }
 }
