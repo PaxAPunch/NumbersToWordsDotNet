@@ -16,7 +16,11 @@ string DecodeInput(double input) {
         return new string("Hello, World!");
     } else {
         string output = "";
-
+        if (input < 0) {
+            output = "NEGATIVE ";
+            // Change the input to potive for simpler handling
+            input = Math.Abs(input);
+        }
         // Split number into two at the decimal point e.g. "123" and "45"
         string[] parts = input.ToString().Split('.');
         // Parse the whole digits into an array e.g. [1,2,3]
@@ -39,6 +43,8 @@ string DecodeInput(double input) {
                 output += Ones(digits[1]);
             }
         //}
+
+        // Need dollars and cents
 
         if (decimals.Length == 0) {
             // No decimals to work with.
