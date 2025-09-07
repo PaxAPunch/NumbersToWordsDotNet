@@ -27,9 +27,18 @@ string DecodeInput(double input) {
             : Array.Empty<int>();
 
         // This will likely be a for loop, need to figure out the best pattern
-
-        output += Tens(digits[0]) + " ";
-        output += Ones(digits[1]);
+        //for (int i=0; i<digits.Length-1; i++) {
+            if (digits.Length == 1) {
+                output += Ones(digits[0]);
+            } else if (digits.Length == 2 && digits[1] == 0) {
+                output += Tens(digits[0]);
+            } else if (digits.Length == 2 && digits[0] == 1) {
+                output += Teens(digits[1]);
+            } else if (digits.Length == 2) {
+                output += Tens(digits[0]) + " ";
+                output += Ones(digits[1]);
+            }
+        //}
 
         if (decimals.Length == 0) {
             // No decimals to work with.
@@ -69,23 +78,23 @@ string Ones(int input) {
 string Teens(double input) {
     switch(input) {
     case 1:
-        return new string("ONE");
+        return new string("ELEVEN");
     case 2:
-        return new string("TWO");
+        return new string("TWELVE");
     case 3:
-        return new string("THREE");
+        return new string("THIRTEEN");
     case 4:
-        return new string("FOUR");
+        return new string("FOURTEEN");
     case 5:
-        return new string("FIVE");
+        return new string("FIFTEEN");
     case 6:
-        return new string("SIX");
+        return new string("SIXTEEN");
     case 7:
-        return new string("SEVEN");
+        return new string("SEVENTEEN");
     case 8:
-        return new string("EIGHT");
+        return new string("EIGHTTEEN");
     case 9:
-        return new string("NINE");
+        return new string("NINETEEN");
     default:
         return new string("");
     }
