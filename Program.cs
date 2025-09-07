@@ -11,14 +11,17 @@ app.UseStaticFiles();
 app.Run();
 
 string DecodeInput(double input) {
-    if (input == 0) return "ZERO";
     string output = "";
+    if (input == 0) {
+        output = "ZERO ";
+    }
     bool negFlag = false;
     if (input < 0) {
         negFlag = true;
         input = Math.Abs(input);
     }
-    if (input > 999999999999999) return "INPUT TOO LARGE (OVER 100 TRILLION)";
+    // Issue here with 1 cent under that.
+    if (input >= 1000000000000000) return "INPUT TOO LARGE (OVER 999 TRILLION)";
 
     string[] parts = input.ToString().Split('.');
     var digits = parts[0].Select(c => int.Parse(c.ToString())).ToArray();
@@ -43,7 +46,9 @@ string DecodeInput(double input) {
     }
 
     if (decimals.Length > 0) {
-        if (digits.Length == 1 && digits[0] == 1) {
+        if (digits.Length == 1 && digits[0] == 0) {
+            output += "ZERO DOLLARS AND ";
+        } else if (digits.Length == 1 && digits[0] == 1) {
             output += "DOLLAR AND ";
         } else {
             output += "DOLLARS AND ";
