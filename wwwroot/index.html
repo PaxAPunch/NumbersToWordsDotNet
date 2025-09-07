@@ -8,11 +8,12 @@
     <h2>Output: </h2>
     <h2><div id="output">&nbsp</div></h2>
     <h3>Input: </h3>
-    <input type='text' id="input" placeholder="123.45">&nbsp<button onclick="callLogic()">Process</button>
+    <input type='number' id="input" placeholder="123.45">&nbsp<button onclick="callLogic()">Process</button>
 
     <script>
         async function callLogic() {
-            const input = document.getElementById('input').value.trim();
+            let input = document.getElementById('input').value;
+            if (input === "") { input = 0; } // Ensures empty inputs don't cause errors
             let response = await fetch(`/api/decode?input=${encodeURIComponent(input)}`);
             let data = await response.json();
             document.getElementById('output').innerText = data.result;
