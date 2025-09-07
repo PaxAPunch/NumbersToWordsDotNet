@@ -30,19 +30,37 @@ string DecodeInput(double input) {
             ? parts[1].Select(c => int.Parse(c.ToString())).ToArray()
             : Array.Empty<int>();
 
-        // This will likely be a for loop, need to figure out the best pattern
-        //for (int i=0; i<digits.Length-1; i++) {
-            if (digits.Length == 1) {
-                output += Ones(digits[0]);
-            } else if (digits.Length == 2 && digits[1] == 0) {
-                output += Tens(digits[0]);
-            } else if (digits.Length == 2 && digits[0] == 1) {
-                output += Teens(digits[1]);
-            } else if (digits.Length == 2) {
-                output += Tens(digits[0]) + " ";
-                output += Ones(digits[1]);
+        int position = digits.Length;
+        for (int i=0; i<=digits.Length-1; i++) {
+            if ((position - 2) % 3 == 0) {
+                // Teens test in here
+                if (digits[i] == 1 && digits[i+1] != 0) {
+                    output += Teens(digits[i+1]);
+                    i++;
+                } else {
+                    output += Tens(digits[i]) + " ";
+                }
+            } else {
+                output += Ones(digits[i]) + " ";
             }
-        //}
+
+            // Do I split it into groups of three and process them in batches?
+            
+            if (digits[i] != 0) {
+                if (position % 3 == 0) {
+                    output += "HUNDRED ";
+                } else if (position % 4 == 0) {
+                    output += "THOUSAND ";
+                } else if (position % 7 == 0) {
+                    output += "MILLION ";
+                } else if (position % 10 == 0) {
+                    output += "BILLION ";
+                } else if (position % 13 == 0) {
+                    output += "TRILLION ";
+                }
+            }
+            position--;
+        }
 
         // Need dollars and cents
 
@@ -98,7 +116,7 @@ string Teens(double input) {
     case 7:
         return new string("SEVENTEEN");
     case 8:
-        return new string("EIGHTTEEN");
+        return new string("EIGHTEEN");
     case 9:
         return new string("NINETEEN");
     default:
@@ -115,7 +133,7 @@ string Tens(double input) {
     case 3:
         return new string("THIRTY");
     case 4:
-        return new string("FOURTY");
+        return new string("FORTY");
     case 5:
         return new string("FIFTY");
     case 6:
