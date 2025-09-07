@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>Number to Words</title>
-   </head>
-   <body>
+<head>
+    <title>Number to Words</title>
+</head>
+<body>
     <h1>Number to Words</h1>
-   </body>
+    <h2>Output: </h2>
+    <h2><div id="output">&nbsp</div></h2>
+    <h3>Input: </h3>
+    <input type='text' id="input" placeholder="123.45">&nbsp<button onclick="callLogic()">Process</button>
+
+    <script>
+        async function callLogic() {
+            const input = document.getElementById('input').value.trim();
+            let response = await fetch(`/api/decode?input=${encodeURIComponent(input)}`);
+            let data = await response.json();
+            document.getElementById('output').innerText = data.result;
+        }
+    </script>
+</body>
 </html>
