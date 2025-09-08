@@ -2,6 +2,7 @@
 
 ## 1. Overview
 This test plan is designed to verify that the numbers to words application correctly converts numerical inputs (including decimals, negatives, and large numbers) into their English word equivalents. It also includes testing for dollars and cents formatting.
+Please note that a test file or testing setup was not completed in time for submission but could have been made with this testing plan.
 
 ---
 
